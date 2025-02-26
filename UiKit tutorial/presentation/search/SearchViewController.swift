@@ -7,34 +7,28 @@
 
 import UIKit
 
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController, SearchViewEventDelegate {
     
     private var searchView: SearchView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpSearchView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
-        addSearchView()
     }
     
-    private func addSearchView() {
-        searchView = SearchView(
-            onSearchButtonTap: { [weak self] text in
-                guard let self else { return }
-                self.onSearchClicked(text)
-            },
-            onSearchTextChange: { [weak self] text in
-                guard let self else { return }
-                self.onSearchTextChanged(text)
-            }
-        )
+    func searchView(didClickSearchButton text: String) {
+        onSearchClicked(text)
+    }
+    
+    private func setUpSearchView() {
+        searchView = SearchView(parent: view)
         if let searchView = searchView {
-            view.addSubview(searchView)
-            searchView.frame = view.bounds
+            searchView.delegate = self
         }
     }
     
@@ -43,17 +37,8 @@ class SearchViewController: UIViewController {
             let followersViewController = FollowersViewController()
             followersViewController.searchQuery = SearchQuery(username: text, title: "\(text)'s Followers")
             navigate(to: followersViewController)
+        } else {
+            showDialog(title: "Username required", body: "Please enter a username to search for followers in GitHub API to continue, thank you! (e.g. @username)", buttonTitle: "OK")
         }
-    }
-    
-    private func onSearchTextChanged(_ text: String) {
-        searchView?.validateSearchInputTextField()
-    }
-}
-
-
-extension UIViewController {
-    func navigate(to destination: UIViewController) {
-        navigationController?.pushViewController(destination, animated: true)
     }
 }

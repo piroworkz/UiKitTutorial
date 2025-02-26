@@ -14,7 +14,7 @@
 		18FC11022D6BC36A0067718D /* Exceptions for "UiKit tutorial" folder in "UiKit tutorial" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				res/Info.plist,
+				core/res/Info.plist,
 			);
 			target = 18FC10EF2D6BC36A0067718D /* UiKit tutorial */;
 		};

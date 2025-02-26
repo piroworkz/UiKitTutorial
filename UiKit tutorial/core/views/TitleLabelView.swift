@@ -16,15 +16,6 @@ class TitleLabelView: UILabel {
         setup()
     }
     
-    private func setup() {
-        textColor = .label
-        adjustsFontSizeToFitWidth = true
-        minimumScaleFactor = Multiplier.ninetyPercent
-        lineBreakMode = .byTruncatingTail
-        translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -34,4 +25,11 @@ class TitleLabelView: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func setup() {
+        textColor = .label
+        adjustsFontSizeToFitWidth = true
+        minimumScaleFactor = Factor.ninetyPercent
+        lineBreakMode = .byTruncatingTail
+        translatesAutoresizingMaskIntoConstraints = false
+    }
 }

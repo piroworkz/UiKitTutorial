@@ -26,14 +26,14 @@ class InputTextFieldView: UITextField {
         setupErrorLabel()
     }
     
-    // should move out to validator SRP
-    func validate() {
+    @discardableResult
+    func isValid() -> Bool {
         if let error = validateText(text) {
-            errorLabelView.show(error)
-            onErrorTheme()
+            onErrorTheme(error)
+            return false
         } else {
-            errorLabelView.hide()
             setupLayer()
+            return true
         }
     }
     
@@ -61,6 +61,7 @@ class InputTextFieldView: UITextField {
     }
     
     private func setupLayer() {
+        errorLabelView.hide()
         layer.cornerRadius = Margin.small
         layer.borderWidth = Border.two
         layer.borderColor = UIColor.systemGray4.cgColor
@@ -94,7 +95,8 @@ class InputTextFieldView: UITextField {
         }
     }
     
-    private func onErrorTheme() {
+    private func onErrorTheme(_ error: String) {
+        errorLabelView.show(error)
         attributedPlaceholder = NSAttributedString(string: placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
         layer.borderColor = UIColor.red.cgColor
         layer.borderWidth = Border.three

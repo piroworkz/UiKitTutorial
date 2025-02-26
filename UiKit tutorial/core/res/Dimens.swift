@@ -21,15 +21,26 @@ struct Margin: Dimens {
 }
 
 struct Size: Dimens {
+    static let xxxSmall: CGFloat = 16
+    static let xxSmall: CGFloat = 24
+    static let xsmall: CGFloat = 32
     static let small: CGFloat = 48
     static let medium: CGFloat = 64
     static let large: CGFloat = 96
     static let xLarge: CGFloat = 128
     static let xxLarge: CGFloat = 196
     static let xxxLarge: CGFloat = 256
+    static let dialogWidth: CGFloat = 280
+    static let dialogHeight: CGFloat = 220
 }
 
-struct Multiplier: Dimens {
+struct Radius: Dimens {
+    static let small: CGFloat = 8
+    static let medium: CGFloat = 16
+    static let large: CGFloat = 24
+}
+
+struct Factor: Dimens {
     static let tenPercent: CGFloat = 0.1
     static let twentyPercent: CGFloat = 0.2
     static let thirtyPercent: CGFloat = 0.3

@@ -8,21 +8,16 @@
 import UIKit
 
 class SearchView: UIView {
-    typealias ButtonClick = (String) -> Void
-    typealias TextChange = (String) -> Void
+    
+    weak var delegate: SearchViewEventDelegate?
     
     private let logoImageView = UIImageView()
     private let searchInputTextField = InputTextFieldView()
-    private let searchButton = LoginButtonView(backgrioundColor: .systemGreen, title: "Search")
-    private let onSearchButtonTap: ButtonClick
-    private var onSearchTextChange: TextChange
+    private let searchButton = FilledButtonView(backgroundColor: .systemGreen, title: "Search")
+    private let parent: UIView
     
-    init(
-        onSearchButtonTap: @escaping ButtonClick,
-        onSearchTextChange: @escaping TextChange
-    ) {
-        self.onSearchButtonTap = onSearchButtonTap
-        self.onSearchTextChange = onSearchTextChange
+    init(parent: UIView) {
+        self.parent = parent
         super.init(frame: .zero)
         setup()
     }
@@ -31,17 +26,16 @@ class SearchView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    func validateSearchInputTextField() {
-        searchInputTextField.validate()
-    }
-    
     private func setup() {
+        parent.addSubview(self)
+        translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .white
+        constraint()
         addImageView()
         addSearchButton()
         addSearchTextField()
         setupEventHandlers()
+        
     }
     
     private func setupEventHandlers() {
@@ -50,11 +44,11 @@ class SearchView: UIView {
     }
     
     @objc private func handleSearchButtonTap() {
-        onSearchButtonTap(searchInputTextField.text ?? "")
+        delegate?.searchView(didClickSearchButton: searchInputTextField.text ?? "")
     }
     
     @objc private func handleSearchTextChange() {
-        onSearchTextChange(searchInputTextField.text ?? "")
+        searchInputTextField.isValid()
     }
     
     private func addImageView() {
@@ -83,7 +77,7 @@ class SearchView: UIView {
         NSLayoutConstraint.activate([
             searchInputTextField.bottomAnchor.constraint(equalTo: searchButton.topAnchor, constant: -Margin.xxLarge),
             searchInputTextField.centerXAnchor.constraint(equalTo: centerXAnchor),
-            searchInputTextField.widthAnchor.constraint(equalTo: widthAnchor, multiplier: Multiplier.eightyPercent),
+            searchInputTextField.widthAnchor.constraint(equalTo: widthAnchor, multiplier: Factor.eightyPercent),
             searchInputTextField.heightAnchor.constraint(equalToConstant: Size.small)
         ])
     }
@@ -99,6 +93,15 @@ class SearchView: UIView {
             searchButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             searchButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8),
             searchButton.heightAnchor.constraint(equalToConstant: Size.small)
+        ])
+    }
+    
+    private func constraint() {
+        NSLayoutConstraint.activate([
+            topAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.topAnchor),
+            leadingAnchor.constraint(equalTo: parent.leadingAnchor),
+            trailingAnchor.constraint(equalTo: parent.trailingAnchor),
+            bottomAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }

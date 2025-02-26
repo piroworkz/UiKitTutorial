@@ -7,11 +7,11 @@
 
 import UIKit
 
-class LoginButtonView: UIButton {
+class FilledButtonView: UIButton {
     
-    init(backgrioundColor: UIColor, title: String) {
+    init(backgroundColor: UIColor, title: String) {
         super.init(frame: .zero)
-        self.backgroundColor = backgrioundColor
+        self.backgroundColor = backgroundColor
         self.setTitle(title, for: .normal)
         setup()
     }
